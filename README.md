@@ -7,15 +7,17 @@ muduo网络库是一款功能强大、易于使用、代码设计优秀的开源
 
 可深入理解TCP协议和UDP协议、IO复用接口编程、LInux多线程编程、理解UNIX/Linux上的五种IO模型、select、poll、epoll优缺点、epoll原理和优势、Reactor模型等。
 
+# 细节
+
 重写muduo网络库，使其不依赖于boost库。全部依赖于C++11标准语言实现，分离网络层与业务层代码
 
 掌握基于事件驱动和事件回调的epoll+线程池面向对象编程
 
-mainLoop与subLoop中用系统调用，wakeupfd来做线程之间的通知，没有使用消息队列，代替了生产者消费者模型，使得效率大大提高
+mainLoop与subLoop中用系统调用，wakeupfd来做线程之间的通知，没有使用同步队列，代替了生产者消费者模型，使得效率大大提高
 
-每一个Lopp都对应着一个poller，在Reactor模型中loop相当于reactor，poller相当于Demultiplex事件分发器
+每一个Loop都对应着一个poller，在Reactor模型中loop相当于reactor，poller相当于Demultiplex事件分发器
 
-流程：
+# 流程：
 
 TcpServer对象构造 主要构造了acceptor（创建listenfd并把其打包成acceptChannel，其accepChanel只关心读事件。)通过enableReading函数将其在poller上进行注册，之后poller来监听acceptChannel上发生的事件了
 
